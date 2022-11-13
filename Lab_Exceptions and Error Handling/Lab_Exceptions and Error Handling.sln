@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32929.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01. Square Root", "01. Square Root\01. Square Root.csproj", "{0F2773E8-5C56-4A50-9375-50B215663DDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01. Square Root", "01. Square Root\01. Square Root.csproj", "{0F2773E8-5C56-4A50-9375-50B215663DDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. Enter Numbers", "02. Enter Numbers\02. Enter Numbers.csproj", "{A0DC0BD5-28B2-4B0F-B980-7D3E2C73DC77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02. Enter Numbers", "02. Enter Numbers\02. Enter Numbers.csproj", "{A0DC0BD5-28B2-4B0F-B980-7D3E2C73DC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "03. Cards", "03. Cards\03. Cards.csproj", "{156CE63C-E236-421E-A872-D6264094CA0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03. Cards", "03. Cards\03. Cards.csproj", "{156CE63C-E236-421E-A872-D6264094CA0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "04. Sum of Integers", "04. Sum of Integers\04. Sum of Integers.csproj", "{EFCBA0FE-542E-4935-8611-1729E4903042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "04. Sum of Integers", "04. Sum of Integers\04. Sum of Integers.csproj", "{EFCBA0FE-542E-4935-8611-1729E4903042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "05. Play Catch", "05. Play Catch\05. Play Catch.csproj", "{3744D7C1-9005-47A6-ADE7-687CE71FE64A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "06. Money Transactions", "06. Money Transactions\06. Money Transactions.csproj", "{2EBF95BB-269D-4F85-AA4D-66ECE5A53205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{EFCBA0FE-542E-4935-8611-1729E4903042}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFCBA0FE-542E-4935-8611-1729E4903042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFCBA0FE-542E-4935-8611-1729E4903042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3744D7C1-9005-47A6-ADE7-687CE71FE64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3744D7C1-9005-47A6-ADE7-687CE71FE64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3744D7C1-9005-47A6-ADE7-687CE71FE64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3744D7C1-9005-47A6-ADE7-687CE71FE64A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EBF95BB-269D-4F85-AA4D-66ECE5A53205}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EBF95BB-269D-4F85-AA4D-66ECE5A53205}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EBF95BB-269D-4F85-AA4D-66ECE5A53205}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EBF95BB-269D-4F85-AA4D-66ECE5A53205}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
