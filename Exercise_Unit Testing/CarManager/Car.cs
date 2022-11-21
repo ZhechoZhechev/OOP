@@ -88,6 +88,7 @@ namespace CarManager
             {
                 if (value < 0)
                 {
+                    //това тествам 
                     throw new ArgumentException("Fuel amount cannot be negative!");
                 }
 
