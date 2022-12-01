@@ -61,7 +61,7 @@ namespace Formula1.Models.Races
             sb.AppendLine($"The {RaceName} race has:")
                 .AppendLine($"Participants: {Pilots.Count}")
                 .AppendLine($"Number of laps: {NumberOfLaps}")
-                .AppendLine(tookPlace);
+                .AppendLine($"Took place: {tookPlace}");
 
             return sb.ToString().TrimEnd();
         }

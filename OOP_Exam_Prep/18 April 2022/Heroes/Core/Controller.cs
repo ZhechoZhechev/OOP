@@ -77,7 +77,7 @@ namespace Heroes.Core
                 throw new InvalidOperationException($"Hero {heroName} does not exist.");
 
             if (weapon == null)
-                throw new InvalidOperationException($"Hero {weaponName} does not exist.");
+                throw new InvalidOperationException($"Weapon {weaponName} does not exist.");
 
             if (hero.Weapon != null)
                 throw new InvalidOperationException($"Hero {heroName} is well-armed.");
