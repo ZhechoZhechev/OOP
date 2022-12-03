@@ -11,7 +11,8 @@ namespace CarRacing.Models.Cars
         public override void Drive()
         {
             base.Drive();
-            HorsePower *= (int)Math.Round(0.97);
+            int hpDecrease = (int)Math.Round(HorsePower * 0.03);
+            HorsePower -= hpDecrease;
         }
     }
 }

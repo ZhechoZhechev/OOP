@@ -5,6 +5,7 @@ namespace CarRacing.Models.Racers
     using CarRacing.Utilities.Messages;
     using Contracts;
     using System;
+    using System.Text;
 
     public abstract class Racer : IRacer
     {
@@ -75,6 +76,17 @@ namespace CarRacing.Models.Racers
         public virtual void Race()
         {
             this.car.Drive();
+        }
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine($"{this.GetType().Name}: {this.Username}")
+                .AppendLine($"--Driving behavior: {racingBehavior}")
+                .AppendLine($"--Driving experience: {drivingExperience}")
+                .AppendLine($"--Car: {Car.Make} {Car.Model} ({Car.VIN})");
+
+            return sb.ToString().TrimEnd();
         }
     }
 }
