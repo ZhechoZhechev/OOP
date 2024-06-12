@@ -11,21 +11,20 @@
         {
             Type classType = Type.GetType(className);
 
-            FieldInfo[] fieldsInfo = classType.GetFields(BindingFlags.Instance | BindingFlags.Static
-                | BindingFlags.Public | BindingFlags.NonPublic);
+            FieldInfo[] fields = classType.GetFields(BindingFlags.Instance | BindingFlags.Public
+                | BindingFlags.NonPublic | BindingFlags.Static);
 
-            Object classInstance = Activator.CreateInstance(classType, new object[] { });
+            object instance = Activator.CreateInstance(classType, []);
 
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine($"Class under investigation: {className}");
-
-            foreach (var field in fieldsInfo.Where(x => fieldsNames.Contains(x.Name)))
+            foreach (FieldInfo field in fields.Where(f => fieldsNames.Contains(f.Name)))
             {
-                sb.AppendLine($"{field.Name} = {field.GetValue(classInstance)}");
+                sb.AppendLine($"{field.Name} = {field.GetValue(instance)}");
             }
 
-            return sb.ToString().TrimEnd();
+            return sb.ToString().Trim();
         }
     }
 }
