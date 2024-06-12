@@ -9,29 +9,28 @@
     {
         public string AnalyzeAccessModifiers(string className)
         {
-            Type targetedClass = Type.GetType(className);
+            Type classType = Type.GetType(className);
 
-            FieldInfo[] fields = targetedClass.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public);
-            MethodInfo[] pubMethods = targetedClass.GetMethods(BindingFlags.Instance | BindingFlags.Public);
-            MethodInfo[] privMethods = targetedClass.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo[] fields = classType.GetFields(BindingFlags.Public | BindingFlags.Instance
+                | BindingFlags.Static);
+            MethodInfo[] publicMethods = classType.GetMethods(BindingFlags.Public | BindingFlags.Instance);
+            MethodInfo[] privateMethods = classType.GetMethods(BindingFlags.NonPublic | BindingFlags.Instance);
 
             StringBuilder sb = new StringBuilder();
-
-            foreach (var field in fields)
+            foreach (FieldInfo field in fields)
             {
                 sb.AppendLine($"{field.Name} must be private!");
             }
-
-            foreach (var method in privMethods.Where(x => x.Name.StartsWith("get")))
+            foreach (MethodInfo privateMethod in privateMethods.Where(m => m.Name.StartsWith("get")))
             {
-                sb.AppendLine($"{method.Name} have to be public!");
+                sb.AppendLine($"{privateMethod.Name} must be public!");
+            }
+            foreach (MethodInfo publicMethod in publicMethods.Where(m => m.Name.StartsWith("set")))
+            {
+                sb.AppendLine($"{publicMethod.Name} must be private!");
             }
 
-            foreach (var method in pubMethods.Where(x => x.Name.StartsWith("set")))
-            {
-                sb.AppendLine($"{method.Name} have to be private!");
-            }
-            return sb.ToString().TrimEnd();
+            return sb.ToString().Trim();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Stealer
             string[] p =
             [
                 "username",
-                "username"
+                "password"
             ];
             Spy spy = new Spy();
             string result = spy.StealFieldInfo("Stealer.Hacker", p);
