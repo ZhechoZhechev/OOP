@@ -9,15 +9,16 @@
     {
         public string RevealPrivateMethods(string className)
         {
-            Type targetedClass = Type.GetType(className);
+            Type classType = Type.GetType(className);
 
-            MethodInfo[] privMethods = targetedClass.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo[] privateMethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic);
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine($"All Private Methods of Class: {targetedClass}");
-            sb.AppendLine($"Base Class: {targetedClass.BaseType.Name}");
-            foreach (var method in privMethods)
+            sb.AppendLine($"All Private Methods of Class: {className}");
+            sb.AppendLine($"Base Class: {classType.BaseType.FullName}");
+
+            foreach (MethodInfo method in privateMethods) 
             {
                 sb.AppendLine(method.Name);
             }
