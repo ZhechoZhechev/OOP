@@ -9,20 +9,22 @@
     {
         public string GettersAndSetters(string className)
         {
-            Type targetedClass = Type.GetType(className);
+            Type classType = Type.GetType(className);
 
-            MethodInfo[] methods = targetedClass.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            MethodInfo[] allmethods = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public 
+                | BindingFlags.NonPublic);
 
             StringBuilder sb = new StringBuilder();
-
-            foreach (var method in methods.Where(x => x.Name.StartsWith("get")))
+            foreach (MethodInfo method in allmethods) 
             {
-                sb.AppendLine($"{method.Name} will return {method.ReturnType}");
-            }
-
-            foreach (var method in methods.Where(x => x.Name.StartsWith("set")))
-            {
-                sb.AppendLine($"{method.Name} will set field of {method.GetParameters().First().ParameterType}");
+                if (method.Name.Contains("get"))
+                {
+                    sb.AppendLine($"{method.Name} will return {method.ReturnType}");
+                }
+                else if (method.Name.Contains("set"))
+                {
+                    sb.AppendLine($"{method.Name} will set field of {method.GetParameters().First().ParameterType}");
+                }        
             }
 
             return sb.ToString().TrimEnd();
