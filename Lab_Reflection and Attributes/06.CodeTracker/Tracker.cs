@@ -8,16 +8,18 @@ namespace AuthorProblem
     {
         public void PrintMethodsByAuthor() 
         {
-            Type classType = typeof(StartUp);
-            Type authorType = typeof(AuthorAttribute);
-            MethodInfo[] methods = classType.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static);
-            foreach (MethodInfo method in methods)
+            var classType = typeof(StartUp);
+            var methods = classType.GetMethods(BindingFlags.Instance | BindingFlags.Static 
+                | BindingFlags.Public);
+            foreach (var method in methods) 
             {
-                if (method.CustomAttributes.Any(a => a.AttributeType == authorType))
+                if (method.CustomAttributes.Any(x => x.AttributeType == typeof(AuthorAttribute)))
                 {
                     var attributes = method.GetCustomAttributes(false);
-                    foreach (AuthorAttribute attribute in attributes)
-                        Console.WriteLine($"{method.Name} is written by {attribute.Name}");
+                    foreach (AuthorAttribute attribute in attributes) 
+                    {
+                        Console.WriteLine($"{method.Name} is writen by {attribute.Name}");
+                    }
                 }
             }
         }

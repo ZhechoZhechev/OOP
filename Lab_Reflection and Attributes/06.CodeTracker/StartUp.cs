@@ -13,5 +13,8 @@ namespace AuthorProblem
 
         [Author("Jane")]
         public void Test() { }
+
+        [Author("BaiZhi")]
+        public static void Test2() { }
     }
 }
