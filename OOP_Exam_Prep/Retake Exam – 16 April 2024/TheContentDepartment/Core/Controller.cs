@@ -11,7 +11,7 @@ public class Controller : IController
 {
     private IRepository<IResource> resources = new ResourceRepository();
     private IRepository<ITeamMember> members = new MemberRepository();
-    //private readonly string[] contentTeamTypw = new string[] { "CSharp", "JavaScript", "Python", "Java" };
+    private readonly string[] resourceTypes = new string[] { "Exam", "Workshop", "Presentation" };
 
     public string ApproveResource(string resourceName, bool isApprovedByTeamLead)
     {
@@ -20,7 +20,44 @@ public class Controller : IController
 
     public string CreateResource(string resourceType, string resourceName, string path)
     {
-        throw new NotImplementedException();
+
+        ITeamMember availableMember = default!;
+        foreach (var member in members.Models)
+        {
+            if (member.Path == path)
+            {
+                if (member.InProgress.Contains(resourceName))
+                {
+                    return string.Format(OutputMessages.ResourceExists, resourceName);
+                }
+
+                availableMember = member;
+            }
+            else
+            {
+                string.Format(OutputMessages.NoContentMemberAvailable, resourceName);
+            }
+        }
+
+        IResource resource;
+        switch (resourceType)
+        {
+            case "Exam":
+                resource = new Exam(resourceName, availableMember.Name);
+                break;
+            case "Workshop":
+                resource = new Workshop(resourceName, availableMember.Name);
+                break;
+            case "Presentation":
+                resource = new Presentation(resourceName, availableMember.Name);
+                break;
+            default:
+                return string.Format(OutputMessages.ResourceTypeInvalid, resourceType);
+        }
+
+        availableMember.WorkOnTask(resource.Name);
+        resources.Add(resource);
+        return string.Format(OutputMessages.ResourceCreatedSuccessfully, availableMember.Name, resourceType, resourceName);
     }
 
     public string DepartmentReport()
