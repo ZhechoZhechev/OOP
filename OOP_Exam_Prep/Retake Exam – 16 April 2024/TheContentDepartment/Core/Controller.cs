@@ -96,6 +96,26 @@ public class Controller : IController
 
     public string LogTesting(string memberName)
     {
-        throw new NotImplementedException();
+        var member = this.members.TakeOne(memberName);
+        if (member == null) 
+        {
+            return string.Format(OutputMessages.WrongMemberName);
+        }
+
+        var highestPriorityResourse = resources.Models.Where(x => x.IsTested ==  false 
+        && x.Creator == memberName)
+            .OrderBy(x => x.Priority).FirstOrDefault();
+        if (highestPriorityResourse == null) 
+        {
+            return string.Format(OutputMessages.NoResourcesForMember, memberName);
+        }
+
+        var teamLead = members.Models.FirstOrDefault(x => x.GetType().Name == nameof(TeamLead));
+
+        highestPriorityResourse.Test();
+        member.FinishTask(highestPriorityResourse.Name);
+        teamLead!.WorkOnTask(highestPriorityResourse.Name);
+
+        return string.Format(OutputMessages.ResourceTested, highestPriorityResourse.Name);
     }
 }
