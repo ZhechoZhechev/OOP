@@ -1,5 +1,6 @@
 ﻿namespace TheContentDepartment.Core;
 
+using System.Data.SqlTypes;
 using TheContentDepartment.Core.Contracts;
 using TheContentDepartment.Models;
 using TheContentDepartment.Models.Contracts;
@@ -15,7 +16,25 @@ public class Controller : IController
 
     public string ApproveResource(string resourceName, bool isApprovedByTeamLead)
     {
-        throw new NotImplementedException();
+        var resourseToApprove = resources.TakeOne(resourceName);
+
+        if (resourseToApprove.IsTested == false)
+        {
+            string.Format(OutputMessages.ResourceNotTested, resourceName);
+        }
+
+        var teamLead = members.Models.FirstOrDefault(x => x.GetType().Name == nameof(TeamLead));
+        if (isApprovedByTeamLead)
+        {
+            resourseToApprove.Approve();
+            teamLead!.FinishTask(resourceName);
+            return string.Format(OutputMessages.ResourceApproved, teamLead.Name, resourceName);
+        }
+        else
+        {
+            resourseToApprove.Test();
+            return string.Format(OutputMessages.ResourceReturned, teamLead!.Name, resourceName);
+        }
     }
 
     public string CreateResource(string resourceType, string resourceName, string path)
