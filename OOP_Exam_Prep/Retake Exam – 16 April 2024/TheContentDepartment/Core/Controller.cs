@@ -1,12 +1,11 @@
 ﻿namespace TheContentDepartment.Core;
 
-using System.Data.SqlTypes;
-using TheContentDepartment.Core.Contracts;
 using TheContentDepartment.Models;
-using TheContentDepartment.Models.Contracts;
 using TheContentDepartment.Repositories;
-using TheContentDepartment.Repositories.Contracts;
+using TheContentDepartment.Core.Contracts;
+using TheContentDepartment.Models.Contracts;
 using TheContentDepartment.Utilities.Messages;
+using TheContentDepartment.Repositories.Contracts;
 
 public class Controller : IController
 {
