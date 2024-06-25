@@ -48,7 +48,7 @@ public abstract class TeamMember : ITeamMember
 
     public void WorkOnTask(string resourceName)
     {
-        if (this.InProgress.Contains(resourceName))
+        if (!this.InProgress.Contains(resourceName))
         {
             this.inProgress.Add(resourceName);
         }

@@ -36,7 +36,7 @@ public abstract class Resource : IResource
 
     public bool IsApproved => this.isApproved;
     public bool IsTested => this.isTested;
-    public string Creator { get => this.creator; private set => this.name = value; }
+    public string Creator { get => this.creator; private set => this.creator = value; }
 
     public int Priority { get => this.priority; private set => this.priority = value; }
 

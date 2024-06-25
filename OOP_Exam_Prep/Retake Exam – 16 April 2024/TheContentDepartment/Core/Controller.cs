@@ -20,7 +20,7 @@ public class Controller : IController
 
         if (resourseToApprove.IsTested == false)
         {
-            string.Format(OutputMessages.ResourceNotTested, resourceName);
+            return string.Format(OutputMessages.ResourceNotTested, resourceName);
         }
 
         var teamLead = members.Models.FirstOrDefault(x => x.GetType().Name == nameof(TeamLead));
@@ -40,7 +40,7 @@ public class Controller : IController
     public string CreateResource(string resourceType, string resourceName, string path)
     {
 
-        ITeamMember availableMember = default!;
+        ITeamMember availableMember = null;
         foreach (var member in members.Models)
         {
             if (member.Path == path)
@@ -51,14 +51,16 @@ public class Controller : IController
                 }
 
                 availableMember = member;
+                break;
             }
-            else
-            {
-                string.Format(OutputMessages.NoContentMemberAvailable, resourceName);
-            }
+
+        }
+        if (availableMember == null) 
+        {
+            return string.Format(OutputMessages.NoContentMemberAvailable, resourceName);
         }
 
-        IResource resource;
+        IResource resource = null;
         switch (resourceType)
         {
             case "Exam":
@@ -74,8 +76,8 @@ public class Controller : IController
                 return string.Format(OutputMessages.ResourceTypeInvalid, resourceType);
         }
 
-        availableMember.WorkOnTask(resource.Name);
         resources.Add(resource);
+        availableMember.WorkOnTask(resource.Name);
         return string.Format(OutputMessages.ResourceCreatedSuccessfully, availableMember.Name, resourceType, resourceName);
     }
 
@@ -84,7 +86,7 @@ public class Controller : IController
         StringBuilder sb = new StringBuilder();
 
         sb.AppendLine("Finished Tasks:");
-        foreach (var resource in resources.Models)
+        foreach (var resource in resources.Models.Where(x => x.IsApproved))
         {
             sb.AppendLine($"--{resource.ToString()}");
         }
@@ -92,6 +94,12 @@ public class Controller : IController
         sb.AppendLine("Team Report:");
         var teamLead = members.Models.FirstOrDefault(x => x.GetType().Name == nameof(TeamLead));
         sb.AppendLine($"--{teamLead!.Name} (TeamLead) - Currently working on {teamLead.InProgress.Count} tasks.");
+        foreach (var member in members.Models.Where(x => x.GetType().Name != nameof(TeamLead)))
+        {
+            sb.AppendLine(member.ToString());
+        }
+
+        return sb.ToString().TrimEnd();
     }
 
     public string JoinTeam(string memberType, string memberName, string path)
@@ -126,15 +134,15 @@ public class Controller : IController
     public string LogTesting(string memberName)
     {
         var member = this.members.TakeOne(memberName);
-        if (member == null) 
+        if (member == null)
         {
             return string.Format(OutputMessages.WrongMemberName);
         }
 
-        var highestPriorityResourse = resources.Models.Where(x => x.IsTested ==  false 
+        var highestPriorityResourse = resources.Models.Where(x => x.IsTested == false
         && x.Creator == memberName)
             .OrderBy(x => x.Priority).FirstOrDefault();
-        if (highestPriorityResourse == null) 
+        if (highestPriorityResourse == null)
         {
             return string.Format(OutputMessages.NoResourcesForMember, memberName);
         }
