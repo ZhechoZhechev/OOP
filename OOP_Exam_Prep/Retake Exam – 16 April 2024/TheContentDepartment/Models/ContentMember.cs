@@ -15,6 +15,6 @@ public class ContentMember : TeamMember
 
     public override string ToString()
     {
-        return $"{this.Name} - {this.Path} path. Currently working on {this.InProgress.Count()} tasks.";
+        return $"{this.Name} - {this.Path} path. Currently working on {this.InProgress.Count} tasks.";
     }
 }

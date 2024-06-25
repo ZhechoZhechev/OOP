@@ -6,6 +6,7 @@ using TheContentDepartment.Core.Contracts;
 using TheContentDepartment.Models.Contracts;
 using TheContentDepartment.Utilities.Messages;
 using TheContentDepartment.Repositories.Contracts;
+using System.Text;
 
 public class Controller : IController
 {
@@ -80,7 +81,17 @@ public class Controller : IController
 
     public string DepartmentReport()
     {
-        throw new NotImplementedException();
+        StringBuilder sb = new StringBuilder();
+
+        sb.AppendLine("Finished Tasks:");
+        foreach (var resource in resources.Models)
+        {
+            sb.AppendLine($"--{resource.ToString()}");
+        }
+
+        sb.AppendLine("Team Report:");
+        var teamLead = members.Models.FirstOrDefault(x => x.GetType().Name == nameof(TeamLead));
+        sb.AppendLine($"--{teamLead!.Name} (TeamLead) - Currently working on {teamLead.InProgress.Count} tasks.");
     }
 
     public string JoinTeam(string memberType, string memberName, string path)
