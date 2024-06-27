@@ -8,6 +8,9 @@ using TheContentDepartment.Utilities.Messages;
 using TheContentDepartment.Repositories.Contracts;
 using System.Text;
 
+/// <summary>
+/// Not working properly 2 point missing
+/// </summary>
 public class Controller : IController
 {
     private IRepository<IResource> resources = new ResourceRepository();
