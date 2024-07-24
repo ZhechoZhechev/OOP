@@ -29,4 +29,14 @@ public class Tests
 
         Assert.That(exception.Message, Is.EqualTo("All arguments are required."));
     }
+
+    [TestCase(null, "valid", "input")]
+    [TestCase("valid", null, "input")]
+    [TestCase("valid", "input", null)]
+    public void LogTaskThrowsIfAnyArgumetIsNull(params string[] args) 
+    {
+        var exception = Assert.Throws<ArgumentException>(() => this.departmentCloud.LogTask(args));
+
+        Assert.That(exception.Message, Is.EqualTo("Arguments values cannot be null."));
+    }
 }
