@@ -15,9 +15,18 @@ public class Tests
     {
         string[] args = { "1", "bug", "huge hard bug" };
 
-        string result =  this.departmentCloud.LogTask(args);
+        string result = this.departmentCloud.LogTask(args);
 
         Assert.That(result, Is.EqualTo("Task logged successfully."));
         Assert.That(departmentCloud.Tasks.Count, Is.EqualTo(1));
+    }
+
+    [TestCase("invalid", "input")]
+    [TestCase("invalid", "input", "four", "args")]
+    public void LogTaskThrowsIfArgsNotCorrectCount(params string[] args)
+    {
+        var exception = Assert.Throws<ArgumentException> (() => this.departmentCloud.LogTask(args));
+
+        Assert.That(exception.Message, Is.EqualTo("All arguments are required."));
     }
 }
