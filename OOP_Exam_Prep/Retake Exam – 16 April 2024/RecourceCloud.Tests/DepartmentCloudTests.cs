@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 namespace RecourceCloud.Tests;
 
 public class Tests
@@ -38,5 +40,16 @@ public class Tests
         var exception = Assert.Throws<ArgumentException>(() => this.departmentCloud.LogTask(args));
 
         Assert.That(exception.Message, Is.EqualTo("Arguments values cannot be null."));
+    }
+
+    [Test]
+    public void LogTaskDoesNotAllowToAddTasksWithSameTaskName()
+    {
+        string[] args = { "1", "bug", "huge hard bug" };
+
+        departmentCloud.LogTask(args);
+        string message = departmentCloud.LogTask(args);
+
+        Assert.That(message, Is.EqualTo($"{args[2]} is already logged."));
     }
 }
