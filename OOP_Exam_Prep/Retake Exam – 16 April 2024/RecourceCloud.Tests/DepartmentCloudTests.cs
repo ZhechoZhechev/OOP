@@ -52,4 +52,12 @@ public class Tests
 
         Assert.That(message, Is.EqualTo($"{args[2]} is already logged."));
     }
+
+    [Test]
+    public void CreateResourceWithNoTasksReturnsFalse() 
+    {
+        bool result = departmentCloud.CreateResource();
+
+        Assert.That(result, Is.False);
+    }
 }
