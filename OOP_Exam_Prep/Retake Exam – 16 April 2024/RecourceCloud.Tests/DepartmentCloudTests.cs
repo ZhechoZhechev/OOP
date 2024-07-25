@@ -4,6 +4,8 @@ namespace RecourceCloud.Tests;
 
 public class Tests
 {
+    private readonly string[] args = new string[] { "1", "bug", "huge hard bug" };
+
     private DepartmentCloud departmentCloud;
 
     [SetUp]
@@ -15,8 +17,6 @@ public class Tests
     [Test]
     public void LogTaskAddTasksCorectly()
     {
-        string[] args = { "1", "bug", "huge hard bug" };
-
         string result = this.departmentCloud.LogTask(args);
 
         Assert.That(result, Is.EqualTo("Task logged successfully."));
@@ -59,5 +59,16 @@ public class Tests
         bool result = departmentCloud.CreateResource();
 
         Assert.That(result, Is.False);
+    }
+
+    [Test]
+    public void CreateResourceSuccessfully() 
+    {
+        this.departmentCloud.LogTask(args);
+        bool result = this.departmentCloud.CreateResource();
+
+        Assert.That(this.departmentCloud.Resources.Count, Is.GreaterThan(0));
+        Assert.That(this.departmentCloud.Tasks, Is.Empty);
+        Assert.That(result, Is.True);
     }
 }
