@@ -79,4 +79,19 @@ public class Tests
 
         Assert.That(result, Is.Null);
     }
+
+    [Test]
+    public void TestResourceWorksCorrectlyWithExistingResourceName()
+    {
+        this.departmentCloud.LogTask(args);
+        this.departmentCloud.CreateResource();
+        Resource resource = this.departmentCloud.TestResource(args[2])!;
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(resource.IsTested, Is.True);
+            Assert.That(resource.ResourceType, Is.EqualTo(args[1]));
+            Assert.That(resource.Name, Is.EqualTo(args[2]));
+        });
+    }
 }
