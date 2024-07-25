@@ -71,4 +71,12 @@ public class Tests
         Assert.That(this.departmentCloud.Tasks, Is.Empty);
         Assert.That(result, Is.True);
     }
+
+    [Test]
+    public void TestResourceReturnsNullIfNotSuchResourceName()
+    {
+        var result = this.departmentCloud.TestResource("random");
+
+        Assert.That(result, Is.Null);
+    }
 }
