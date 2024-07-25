@@ -32,10 +32,10 @@ public abstract class Influencer : IInfluencer
         }
     }
 
-    public int Followers 
+    public int Followers
     {
         get => this.followers;
-        private set 
+        private set
         {
             if (value <= 0)
                 throw new ArgumentException(ExceptionMessages.FollowersCountNegative);
@@ -64,5 +64,10 @@ public abstract class Influencer : IInfluencer
     public void EnrollCampaign(string brand)
     {
         this.participations.Add(brand);
+    }
+
+    public override string ToString() 
+    {
+        return $"{Username} - Followers: {Followers}, Total Income: {Income}";
     }
 }
