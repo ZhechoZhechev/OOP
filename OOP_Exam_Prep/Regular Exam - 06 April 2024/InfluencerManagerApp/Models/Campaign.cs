@@ -1,50 +1,60 @@
 ﻿using InfluencerManagerApp.Models.Contracts;
-using InfluencerManagerApp.Utilities.Messages;
 
-namespace InfluencerManagerApp.Models;
-
-public abstract class Campaign : ICampaign
+namespace InfluencerManagerApp.Models
 {
-    private string brand;
-    private double budget;
-    private readonly List<string> contributors;
+    public abstract class Campaign : ICampaign
+    {
+        private string brand;
+        private double budget;
+        private readonly List<string> contributors;
 
-    protected Campaign(string brand, double budget)
-    {
-        this.Brand = brand;
-        this.Budget = budget;
-        this.contributors = new List<string>();
-    }
-    public string Brand
-    {
-        get => this.brand;
-        private set
+
+        public Campaign(string brand, double budget)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException(ExceptionMessages.BrandIsrequired);
+            Brand = brand;
+            Budget = budget;
 
-            this.brand = value;
+            contributors = new List<string>();
         }
-    }
 
-    public double Budget { get; private set; }
+        public string Brand
+        {
+            get => brand;
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException("Brand is required.");
+                }
+                brand = value;
+            }
+        }
 
-    public IReadOnlyCollection<string> Contributors => this.contributors.AsReadOnly();
+        public double Budget
+        {
+            get => budget;
+            private set
+            {
+                budget = value;
+            }
+        }
 
-    public void Engage(IInfluencer influencer)
-    {
-        this.contributors.Add(influencer.Username);
-        var campaignPrice = influencer.CalculateCampaignPrice();
-        this.budget -= campaignPrice;
-    }
+        public IReadOnlyCollection<string> Contributors => contributors;
 
-    public void Gain(double amount)
-    {
-        this.budget += amount;
-    }
+        public void Engage(IInfluencer influencer)
+        {
+            contributors.Add(influencer.Username);
+            budget -= influencer.CalculateCampaignPrice();
+        }
 
-    public override string ToString()
-    {
-        return $"{this.GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {this.Contributors.Count}";
+        public void Gain(double amount)
+        {
+            budget += amount;
+        }
+
+        public override string ToString()
+        {
+            return $"{GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {Contributors.Count}";
+        }
     }
 }
