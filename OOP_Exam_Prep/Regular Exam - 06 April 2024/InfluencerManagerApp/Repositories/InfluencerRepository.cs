@@ -1,6 +1,5 @@
 ﻿namespace InfluencerManagerApp.Repositories;
 
-using InfluencerManagerApp.Models;
 using InfluencerManagerApp.Models.Contracts;
 using InfluencerManagerApp.Repositories.Contracts;
 
@@ -22,7 +21,7 @@ public class InfluencerRepository : IRepository<IInfluencer>
 
     public IInfluencer FindByName(string name)
     {
-        return models.FirstOrDefault(i => i.Username == name);
+        return models.FirstOrDefault(i => i.Username == name)!;
     }
 
     public bool RemoveModel(IInfluencer model)
