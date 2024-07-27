@@ -7,6 +7,11 @@ public class InfluencerRepository : IRepository<Influencer>
 {
     private readonly List<Influencer> models;
 
+    public InfluencerRepository()
+    {
+        this.models = new List<Influencer>();
+    }
+
     public IReadOnlyCollection<Influencer> Models => models.AsReadOnly();
 
     public void AddModel(Influencer model)

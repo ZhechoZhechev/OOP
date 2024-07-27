@@ -6,6 +6,12 @@ using InfluencerManagerApp.Repositories.Contracts;
 public class CampaignRepository : IRepository<Campaign>
 {
     private readonly List<Campaign> models;
+
+    public CampaignRepository()
+    {
+        this.models = new List<Campaign>();    
+    }
+
     public IReadOnlyCollection<Campaign> Models => this.models.AsReadOnly();
 
     public void AddModel(Campaign model)
