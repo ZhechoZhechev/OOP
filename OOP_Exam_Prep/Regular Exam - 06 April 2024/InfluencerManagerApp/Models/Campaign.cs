@@ -1,60 +1,50 @@
-﻿using InfluencerManagerApp.Models.Contracts;
+﻿namespace InfluencerManagerApp.Models;
 
-namespace InfluencerManagerApp.Models
+using InfluencerManagerApp.Models.Contracts;
+using InfluencerManagerApp.Utilities.Messages;
+
+public abstract class Campaign : ICampaign
 {
-    public abstract class Campaign : ICampaign
+    private string brand;
+    private double budget;
+    private readonly List<string> contributors;
+
+    protected Campaign(string brand, double budget)
     {
-        private string brand;
-        private double budget;
-        private readonly List<string> contributors;
-
-
-        public Campaign(string brand, double budget)
+        this.Brand = brand;
+        this.Budget = budget;
+        this.contributors = new List<string>();
+    }
+    public string Brand
+    {
+        get => this.brand;
+        private set
         {
-            Brand = brand;
-            Budget = budget;
+            if (string.IsNullOrWhiteSpace(value))
+                throw new ArgumentException(ExceptionMessages.BrandIsrequired);
 
-            contributors = new List<string>();
+            this.brand = value;
         }
+    }
 
-        public string Brand
-        {
-            get => brand;
-            private set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentException("Brand is required.");
-                }
-                brand = value;
-            }
-        }
+    public double Budget { get; private set; }
 
-        public double Budget
-        {
-            get => budget;
-            private set
-            {
-                budget = value;
-            }
-        }
+    public IReadOnlyCollection<string> Contributors => this.contributors.AsReadOnly();
 
-        public IReadOnlyCollection<string> Contributors => contributors;
+    public void Engage(IInfluencer influencer)
+    {
+        this.contributors.Add(influencer.Username);
+        var campaignPrice = influencer.CalculateCampaignPrice();
+        this.budget -= campaignPrice;
+    }
 
-        public void Engage(IInfluencer influencer)
-        {
-            contributors.Add(influencer.Username);
-            budget -= influencer.CalculateCampaignPrice();
-        }
+    public void Gain(double amount)
+    {
+        this.budget += amount;
+    }
 
-        public void Gain(double amount)
-        {
-            budget += amount;
-        }
-
-        public override string ToString()
-        {
-            return $"{GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {Contributors.Count}";
-        }
+    public override string ToString()
+    {
+        return $"{this.GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {this.Contributors.Count}";
     }
 }
