@@ -12,7 +12,7 @@ public abstract class Campaign : ICampaign
     protected Campaign(string brand, double budget)
     {
         this.Brand = brand;
-        this.budget = budget;
+        this.Budget = budget;
         this.contributors = new List<string>();
     }
     public string Brand
@@ -35,16 +35,16 @@ public abstract class Campaign : ICampaign
     {
         this.contributors.Add(influencer.Username);
         var campaignPrice = influencer.CalculateCampaignPrice();
-        this.Budget -= campaignPrice;
+        this.budget -= campaignPrice;
     }
 
     public void Gain(double amount)
     {
-        this.Budget += amount;
+        this.budget += amount;
     }
 
     public override string ToString()
     {
-        return $"{this.GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {this.contributors.Count}";
+        return $"{this.GetType().Name} - Brand: {Brand}, Budget: {Budget}, Contributors: {this.Contributors.Count}";
     }
 }

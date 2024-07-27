@@ -17,9 +17,10 @@ public abstract class Influencer : IInfluencer
     {
         this.Username = username;
         this.Followers = followers;
-        this.engagementRate = engagementRate;
+        this.EngagementRate = engagementRate;
+
         this.participations = new List<string>();
-        this.income = 0;
+        this.Income = 0;
     }
 
     public string Username
@@ -38,7 +39,7 @@ public abstract class Influencer : IInfluencer
         get => this.followers;
         private set
         {
-            if (value <= 0)
+            if (value < 0)
                 throw new ArgumentException(ExceptionMessages.FollowersCountNegative);
             this.followers = value;
         }
