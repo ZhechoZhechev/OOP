@@ -18,7 +18,7 @@ public abstract class Campaign : ICampaign
     public string Brand
     {
         get => this.brand;
-        set
+        private set
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException(ExceptionMessages.BrandIsrequired);
