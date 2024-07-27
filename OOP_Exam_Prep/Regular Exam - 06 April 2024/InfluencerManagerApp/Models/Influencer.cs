@@ -1,75 +1,82 @@
-﻿namespace InfluencerManagerApp.Models;
+﻿using InfluencerManagerApp.Models.Contracts;
 
-using InfluencerManagerApp.Models.Contracts;
-using InfluencerManagerApp.Utilities.Messages;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-
-public abstract class Influencer : IInfluencer
+namespace InfluencerManagerApp.Models
 {
-    private string username;
-    private int followers;
-    private double engagementRate;
-    private double income;
-    private readonly List<string> participations;
-
-    protected Influencer(string username, int followers, double engagementRate)
+    public abstract class Influencer : IInfluencer
     {
-        this.Username = username;
-        this.Followers = followers;
-        this.EngagementRate = engagementRate;
+        private string username;
+        private int followers;
+        private double engagementRate;
+        private double income;
+        private readonly List<string> participations;
 
-        this.participations = new List<string>();
-        this.Income = 0;
-    }
-
-    public string Username
-    {
-        get => this.username;
-        private set
+        protected Influencer(string username, int followers, double engagmentRate)
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new ArgumentException(ExceptionMessages.UsernameIsRequired);
-            this.username = value;
-        }
-    }
+            Username = username;
+            Followers = followers;
+            EngagementRate = engagmentRate;
 
-    public int Followers
-    {
-        get => this.followers;
-        private set
+            Income = 0;
+            participations = new List<string>();
+        }
+
+        public string Username
         {
-            if (value < 0)
-                throw new ArgumentException(ExceptionMessages.FollowersCountNegative);
-            this.followers = value;
+            get => username;
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentException($"Username is required.");
+                }
+                username = value;
+            }
         }
-    }
 
-    public double EngagementRate { get; private set; }
+        public int Followers
+        {
+            get => followers;
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentException($"Followers count cannot be a negative number.");
+                }
+                followers = value;
+            }
+        }
 
-    public double Income { get; private set; }
+        public double EngagementRate
+        {
+            get => engagementRate;
+            private set
+            {
+                engagementRate = value;
+            }
+        }
 
-    public IReadOnlyCollection<string> Participations => this.participations.AsReadOnly();
+        public double Income
+        {
+            get => income;
+            private set
+            {
+                income = value;
+            }
+        }
 
-    public abstract int CalculateCampaignPrice();
+        public IReadOnlyCollection<string> Participations => participations;
 
-    public void EarnFee(double amount)
-    {
-        this.income += amount;
-    }
+        public void EarnFee(double amount) => income += amount;
 
-    public void EndParticipation(string brand)
-    {
-        this.participations.Remove(brand);
-    }
+        public void EnrollCampaign(string brand) => participations.Add(brand);
 
-    public void EnrollCampaign(string brand)
-    {
-        this.participations.Add(brand);
-    }
+        public abstract int CalculateCampaignPrice();
 
-    public override string ToString() 
-    {
-        return $"{Username} - Followers: {Followers}, Total Income: {Income}";
+        public override string ToString() => $"{Username} - Followers: {Followers}, Total Income: {Income}";
+
+        public void EndParticipation(string brand)
+        {
+            participations.Remove(brand);
+        }
     }
 }
