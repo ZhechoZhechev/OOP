@@ -1,31 +1,33 @@
-﻿namespace InfluencerManagerApp.Repositories;
-
-using InfluencerManagerApp.Models;
+﻿using InfluencerManagerApp.Models.Contracts;
 using InfluencerManagerApp.Repositories.Contracts;
 
-public class InfluencerRepository : IRepository<Influencer>
+namespace InfluencerManagerApp.Repositories
 {
-    private readonly List<Influencer> models;
-
-    public InfluencerRepository()
+    public class InfluencerRepository : IRepository<IInfluencer>
     {
-        this.models = new List<Influencer>();
-    }
+        private readonly List<IInfluencer> models;
 
-    public IReadOnlyCollection<Influencer> Models => models.AsReadOnly();
+        public InfluencerRepository()
+        {
+            models = new List<IInfluencer>();
+        }
 
-    public void AddModel(Influencer model)
-    {
-        models.Add(model);
-    }
+        public IReadOnlyCollection<IInfluencer> Models => models;
 
-    public Influencer FindByName(string name)
-    {
-        return models.FirstOrDefault(i => i.Username == name)!;
-    }
 
-    public bool RemoveModel(Influencer model)
-    {
-        return models.Remove(model);
+        public void AddModel(IInfluencer model)
+        {
+            models.Add(model);
+        }
+
+        public bool RemoveModel(IInfluencer model)
+        {
+            return models.Remove(model);
+        }
+
+        public IInfluencer FindByName(string name)
+        {
+            return models.FirstOrDefault(m => m.Username == name);
+        }
     }
 }
