@@ -3,6 +3,7 @@
 using InfluencerManagerApp.Models.Contracts;
 using InfluencerManagerApp.Utilities.Messages;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 public abstract class Influencer : IInfluencer
 {
@@ -43,9 +44,9 @@ public abstract class Influencer : IInfluencer
         }
     }
 
-    public double EngagementRate => this.engagementRate;
+    public double EngagementRate { get; private set; }
 
-    public double Income => this.income;
+    public double Income { get; private set; }
 
     public IReadOnlyCollection<string> Participations => this.participations.AsReadOnly();
 
