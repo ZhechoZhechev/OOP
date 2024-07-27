@@ -1,31 +1,32 @@
-﻿namespace InfluencerManagerApp.Repositories;
-
-using InfluencerManagerApp.Models;
+﻿using InfluencerManagerApp.Models.Contracts;
 using InfluencerManagerApp.Repositories.Contracts;
 
-public class CampaignRepository : IRepository<Campaign>
+namespace InfluencerManagerApp.Repositories
 {
-    private readonly List<Campaign> models;
-
-    public CampaignRepository()
+    public class CampaignRepository : IRepository<ICampaign>
     {
-        this.models = new List<Campaign>();    
-    }
+        private readonly List<ICampaign> models;
 
-    public IReadOnlyCollection<Campaign> Models => this.models.AsReadOnly();
+        public CampaignRepository()
+        {
+            models = new List<ICampaign>();
+        }
 
-    public void AddModel(Campaign model)
-    {
-        this.models.Add(model);
-    }
+        public IReadOnlyCollection<ICampaign> Models => models;
 
-    public Campaign FindByName(string name)
-    {
-        return this.models.FirstOrDefault(i => i.Brand == name)!;
-    }
+        public void AddModel(ICampaign model)
+        {
+            models.Add(model);
+        }
 
-    public bool RemoveModel(Campaign model)
-    {
-        return this.models.Remove(model);
+        public bool RemoveModel(ICampaign model)
+        {
+            return models.Remove(model);
+        }
+
+        public ICampaign FindByName(string brand)
+        {
+            return models.FirstOrDefault(m => m.Brand == brand);
+        }
     }
 }
