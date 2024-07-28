@@ -13,6 +13,7 @@ public class Controller : IController
     private IRepository<ICampaign> campaigns;
 
     private readonly string[] infuencerTypes = new string[] { "BusinessInfluencer", "FashionInfluencer", "BloggerInfluencer" }; 
+    private readonly string[] campaignTypes = new string[] { "ProductCampaign", "ServiceCampaign" };
 
     public Controller()
     {
@@ -31,7 +32,30 @@ public class Controller : IController
 
     public string BeginCampaign(string typeName, string brand)
     {
-        throw new NotImplementedException();
+        if (!campaignTypes.Contains(typeName))
+        {
+            return string.Format(OutputMessages.CampaignTypeIsNotValid, typeName);
+        }
+
+        if (this.campaigns.Models.Any(b => b.Brand == brand))
+        {
+            return string.Format(OutputMessages.CampaignDuplicated, brand);
+        }
+
+        ICampaign campaign = null!;
+        switch (typeName)
+        {
+            case "ProductCampaign":
+                campaign = new ProductCampaign(brand);
+                break;
+            case "ServiceCampaign":
+                campaign = new ServiceCampaign(brand);
+                break;
+        }
+
+        this.campaigns.AddModel(campaign);
+
+        return string.Format(OutputMessages.CampaignStartedSuccessfully, brand, typeName);
     }
 
     public string CloseCampaign(string brand)
