@@ -3,6 +3,9 @@
 using InfluencerManagerApp.Models.Contracts;
 using InfluencerManagerApp.Repositories.Contracts;
 
+/// <summary>
+/// Use the interface
+/// </summary>
 public class InfluencerRepository : IRepository<IInfluencer>
 {
     private readonly List<IInfluencer> models;
