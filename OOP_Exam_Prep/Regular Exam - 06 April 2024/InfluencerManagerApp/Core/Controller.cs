@@ -27,7 +27,10 @@ public class Controller : IController
 
     public string AttractInfluencer(string brand, string username)
     {
-        throw new NotImplementedException();
+        if (this.influencers.FindByName(username) == null) 
+        {
+            return string.Format(OutputMessages.InfluencerNotFound, influencers.GetType().Name, username);
+        }
     }
 
     public string BeginCampaign(string typeName, string brand)
