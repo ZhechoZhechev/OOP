@@ -31,6 +31,11 @@ public class Controller : IController
         {
             return string.Format(OutputMessages.InfluencerNotFound, influencers.GetType().Name, username);
         }
+
+        if (this.campaigns.FindByName(brand) == null)
+        {
+            return string.Format(OutputMessages.CampaignNotFound, brand);
+        }
     }
 
     public string BeginCampaign(string typeName, string brand)
