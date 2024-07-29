@@ -12,7 +12,7 @@ public class Controller : IController
     private IRepository<IInfluencer> influencers;
     private IRepository<ICampaign> campaigns;
 
-    private readonly string[] infuencerTypes = new string[] { "BusinessInfluencer", "FashionInfluencer", "BloggerInfluencer" }; 
+    private readonly string[] infuencerTypes = new string[] { "BusinessInfluencer", "FashionInfluencer", "BloggerInfluencer" };
     private readonly string[] campaignTypes = new string[] { "ProductCampaign", "ServiceCampaign" };
 
     public Controller()
@@ -27,7 +27,7 @@ public class Controller : IController
 
     public string AttractInfluencer(string brand, string username)
     {
-        if (this.influencers.FindByName(username) == null) 
+        if (this.influencers.FindByName(username) == null)
         {
             return string.Format(OutputMessages.InfluencerNotFound, influencers.GetType().Name, username);
         }
@@ -35,6 +35,29 @@ public class Controller : IController
         if (this.campaigns.FindByName(brand) == null)
         {
             return string.Format(OutputMessages.CampaignNotFound, brand);
+        }
+
+        var campaign = this.campaigns.FindByName(brand);
+        var influencer = this.influencers.FindByName(username);
+        if (campaign.Contributors.Contains(username))
+        {
+            string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+        }
+
+        switch (campaign.GetType().Name)
+        {
+            case "ProductCampaign":
+                if (influencer.GetType().Name == "BloggerInfluencer")
+                {
+                    return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+                }
+                break;
+            case "ServiceCampaign":
+                if (influencer.GetType().Name == "FashionInfluencer")
+                {
+                    return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+                }
+                break;
         }
     }
 
@@ -96,7 +119,7 @@ public class Controller : IController
         IInfluencer influencer = null!;
         switch (typeName)
         {
-            case "BusinessInfluencer": 
+            case "BusinessInfluencer":
                 influencer = new BusinessInfluencer(username, followers);
                 break;
             case "FashionInfluencer":
@@ -106,7 +129,7 @@ public class Controller : IController
                 influencer = new BloggerInfluencer(username, followers);
                 break;
         }
-        
+
         this.influencers.AddModel(influencer);
 
         return string.Format(OutputMessages.InfluencerRegisteredSuccessfully, username);
