@@ -44,20 +44,25 @@ public class Controller : IController
             string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
         }
 
+        var isEligible = true;
         switch (campaign.GetType().Name)
         {
             case "ProductCampaign":
                 if (influencer.GetType().Name == "BloggerInfluencer")
                 {
-                    return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+                    isEligible = false;
                 }
                 break;
             case "ServiceCampaign":
                 if (influencer.GetType().Name == "FashionInfluencer")
                 {
-                    return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+                    isEligible = false;
                 }
                 break;
+        }
+        if (!isEligible)
+        {
+            return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
         }
 
         if (campaign.Budget < influencer.CalculateCampaignPrice())
