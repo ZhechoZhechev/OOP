@@ -59,6 +59,17 @@ public class Controller : IController
                 }
                 break;
         }
+
+        if (campaign.Budget < influencer.CalculateCampaignPrice())
+        {
+            return string.Format(OutputMessages.UnsufficientBudget, brand, username);
+        }
+
+        campaign.Engage(influencer);
+        influencer.EnrollCampaign(brand);
+        influencer.EarnFee(influencer.CalculateCampaignPrice());
+
+        return string.Format(OutputMessages.InfluencerAttractedSuccessfully, username, brand);
     }
 
     public string BeginCampaign(string typeName, string brand)
