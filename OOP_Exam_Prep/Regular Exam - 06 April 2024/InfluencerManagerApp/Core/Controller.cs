@@ -117,7 +117,19 @@ public class Controller : IController
 
     public string FundCampaign(string brand, double amount)
     {
-        throw new NotImplementedException();
+        if (!this.campaigns.Models.Any(b => b.Brand == brand))
+        {
+            return OutputMessages.InvalidCampaignToFund;
+        }
+
+        if (amount <= 0)
+        {
+            return OutputMessages.NotPositiveFundingAmount;
+        }
+
+        ICampaign campaign = this.campaigns.FindByName(brand);
+        campaign.Gain(amount);
+        return string.Format(OutputMessages.CampaignFundedSuccessfully, brand, amount);
     }
 
     public string RegisterInfluencer(string typeName, string username, int followers)
