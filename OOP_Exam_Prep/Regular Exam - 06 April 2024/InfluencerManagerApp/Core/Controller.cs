@@ -14,6 +14,8 @@ public class Controller : IController
 
     private readonly string[] infuencerTypes = new string[] { "BusinessInfluencer", "FashionInfluencer", "BloggerInfluencer" };
     private readonly string[] campaignTypes = new string[] { "ProductCampaign", "ServiceCampaign" };
+    private const double budgetTreshold = 10000;
+    private const double influncersFeeForSuccessfullCampaign = 2000;
 
     public Controller()
     {
@@ -107,7 +109,26 @@ public class Controller : IController
 
     public string CloseCampaign(string brand)
     {
-        throw new NotImplementedException();
+        ICampaign campaign = this.campaigns.FindByName(brand);
+        if (campaign == null)
+        {
+            return OutputMessages.InvalidCampaignToClose;
+        }
+
+        if (campaign.Budget <= budgetTreshold)
+        {
+            return string.Format(OutputMessages.CampaignCannotBeClosed, brand);
+        }
+
+        foreach (string influencer in campaign.Contributors)
+        {
+            IInfluencer curInfluencer = this.influencers.FindByName(influencer);
+            curInfluencer.EarnFee(influncersFeeForSuccessfullCampaign);
+            curInfluencer.EndParticipation(brand);
+        }
+
+        this.campaigns.RemoveModel(campaign);
+        return string.Format(OutputMessages.CampaignClosedSuccessfully, brand);
     }
 
     public string ConcludeAppContract(string username)
