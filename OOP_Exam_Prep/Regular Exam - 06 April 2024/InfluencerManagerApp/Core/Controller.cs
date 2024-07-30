@@ -6,6 +6,7 @@ using Models.Contracts;
 using Repositories.Contracts;
 using InfluencerManagerApp.Utilities.Messages;
 using InfluencerManagerApp.Models;
+using System.Text;
 
 public class Controller : IController
 {
@@ -24,7 +25,24 @@ public class Controller : IController
     }
     public string ApplicationReport()
     {
-        throw new NotImplementedException();
+        var influencersSorted = influencers.Models.Where(c => c.Participations.Any())
+            .OrderByDescending(i => i.Income)
+            .ThenByDescending(i => i.Followers);
+
+        StringBuilder sb = new StringBuilder();
+        foreach (IInfluencer influencer in influencersSorted)
+        {
+            sb.AppendLine(influencer.ToString())
+                .AppendLine("Active Campaigns:");
+
+            foreach (var campaignName in influencer.Participations)
+            {
+                var campaign = campaigns.FindByName(campaignName);
+                sb.AppendLine($"--{campaign.ToString()}");
+            }
+        }
+
+        return sb.ToString().TrimEnd();
     }
 
     public string AttractInfluencer(string brand, string username)
