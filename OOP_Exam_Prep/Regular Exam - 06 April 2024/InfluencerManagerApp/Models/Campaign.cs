@@ -35,12 +35,12 @@ public abstract class Campaign : ICampaign
     {
         this.contributors.Add(influencer.Username);
         var campaignPrice = influencer.CalculateCampaignPrice();
-        this.budget -= campaignPrice;
+        this.Budget -= campaignPrice;
     }
 
     public void Gain(double amount)
     {
-        this.budget += amount;
+        this.Budget += amount;
     }
 
     public override string ToString()

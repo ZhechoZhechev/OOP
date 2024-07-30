@@ -25,21 +25,27 @@ public class Controller : IController
     }
     public string ApplicationReport()
     {
-        var influencersSorted = influencers.Models.Where(c => c.Participations.Any())
+        var influencersSorted = influencers.Models
             .OrderByDescending(i => i.Income)
             .ThenByDescending(i => i.Followers);
 
         StringBuilder sb = new StringBuilder();
         foreach (IInfluencer influencer in influencersSorted)
         {
-            sb.AppendLine(influencer.ToString())
-                .AppendLine("Active Campaigns:");
+            sb.AppendLine(influencer.ToString());
 
-            foreach (var campaignName in influencer.Participations)
+            if (influencer.Participations.Any())
             {
-                var campaign = campaigns.FindByName(campaignName);
-                sb.AppendLine($"--{campaign.ToString()}");
+                var sortedParticipations = influencer.Participations.OrderBy(s => s);
+                sb.AppendLine("Active Campaigns:");
+
+                foreach (var campaignName in sortedParticipations)
+                {
+                    var campaign = campaigns.FindByName(campaignName);
+                    sb.AppendLine($"--{campaign.ToString()}");
+                }
             }
+
         }
 
         return sb.ToString().TrimEnd();
@@ -61,7 +67,7 @@ public class Controller : IController
         var influencer = this.influencers.FindByName(username);
         if (campaign.Contributors.Contains(username))
         {
-            string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
+            return string.Format(OutputMessages.InfluencerAlreadyEngaged, username, brand);
         }
 
         var isEligible = true;
@@ -85,14 +91,15 @@ public class Controller : IController
             return string.Format(OutputMessages.InfluencerNotEligibleForCampaign, username, brand);
         }
 
-        if (campaign.Budget < influencer.CalculateCampaignPrice())
+        double profit = influencer.CalculateCampaignPrice();
+        if (campaign.Budget < profit)
         {
             return string.Format(OutputMessages.UnsufficientBudget, brand, username);
         }
 
         campaign.Engage(influencer);
         influencer.EnrollCampaign(brand);
-        influencer.EarnFee(influencer.CalculateCampaignPrice());
+        influencer.EarnFee(profit);
 
         return string.Format(OutputMessages.InfluencerAttractedSuccessfully, username, brand);
     }

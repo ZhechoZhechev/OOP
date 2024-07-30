@@ -54,7 +54,7 @@ public abstract class Influencer : IInfluencer
 
     public void EarnFee(double amount)
     {
-        this.income += amount;
+        this.Income += amount;
     }
 
     public void EndParticipation(string brand)
