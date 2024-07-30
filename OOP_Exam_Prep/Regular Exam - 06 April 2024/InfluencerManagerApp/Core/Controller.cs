@@ -133,7 +133,19 @@ public class Controller : IController
 
     public string ConcludeAppContract(string username)
     {
-        throw new NotImplementedException();
+        IInfluencer influencer = this.influencers.FindByName(username);
+        if (influencer == null)
+        {
+            return string.Format(OutputMessages.InfluencerNotSigned, username);
+        }
+
+        if (influencer.Participations.Any())
+        {
+            return string.Format(OutputMessages.InfluencerHasActiveParticipations, username);
+        }
+
+        this.influencers.RemoveModel(influencer);
+        return string.Format(OutputMessages.ContractConcludedSuccessfully, username);
     }
 
     public string FundCampaign(string brand, double amount)
