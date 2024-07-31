@@ -57,4 +57,19 @@ public class Tests
             Assert.That(msg.Message, Does.Contain("Username cannot be null"));
         });
     }
+
+    [Test]
+
+    public void RemoveInfluencerWorksAsIntended()
+    {
+        this.inflRepository.RegisterInfluencer(influencer);
+
+        var result = this.inflRepository.RemoveInfluencer(influencer.Username);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(this.inflRepository.Influencers.Count == 0);
+            Assert.That(result, Is.True);
+        });
+    }
 }
