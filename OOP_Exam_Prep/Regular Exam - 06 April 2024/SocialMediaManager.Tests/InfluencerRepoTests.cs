@@ -4,12 +4,14 @@ public class Tests
 {
     private InfluencerRepository inflRepository;
     private Influencer influencer;
+    private Influencer influencer1;
 
     [SetUp]
     public void Setup()
     {
         inflRepository = new InfluencerRepository();
         influencer = new Influencer("Test", 1);
+        influencer1 = new Influencer("Test1", 100);
     }
 
     [Test]
@@ -71,5 +73,42 @@ public class Tests
             Assert.That(this.inflRepository.Influencers.Count == 0);
             Assert.That(result, Is.True);
         });
+    }
+
+    [Test]
+    public void GetInfluencerWithMostFollowersReturnCorrectInfluencer()
+    {
+        this.inflRepository.RegisterInfluencer(influencer);
+        this.inflRepository.RegisterInfluencer(influencer1);
+
+        var result = this.inflRepository.GetInfluencerWithMostFollowers();
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Username, Is.EqualTo(influencer1.Username));
+            Assert.That(result.Followers, Is.EqualTo(influencer1.Followers));
+        });
+    }
+
+    [Test]
+    public void GetInfluencerReturnsCorrectInfluencer() 
+    {
+        this.inflRepository.RegisterInfluencer(influencer);
+
+        var result = this.inflRepository.GetInfluencer(influencer.Username);
+
+        Assert.Multiple(() => 
+        {
+            Assert.That(result.Username, Is.EqualTo(influencer.Username));
+            Assert.That(result.Followers, Is.EqualTo(influencer.Followers));
+        });
+    }
+    [Test]
+    public void GetInfluencerReturnsNull()
+    {
+
+        var result = this.inflRepository.GetInfluencer(influencer.Username);
+
+        Assert.That(result, Is.Null);
     }
 }
