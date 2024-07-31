@@ -1,5 +1,8 @@
 namespace SocialMediaManager.Tests;
 
+using System;
+using NUnit.Framework;
+using System.Linq;
 public class Tests
 {
     private InfluencerRepository inflRepository;
