@@ -3,11 +3,13 @@ namespace SocialMediaManager.Tests;
 public class Tests
 {
     private InfluencerRepository inflRepository;
+    private Influencer influencer;
 
     [SetUp]
     public void Setup()
     {
         inflRepository = new InfluencerRepository();
+        influencer = new Influencer("Test", 1);
     }
 
     [Test]
@@ -24,7 +26,6 @@ public class Tests
     [Test]
     public void RegisterInfluencerThrowsIfNameExists() 
     {
-        Influencer influencer = new Influencer("Test", 1);
         inflRepository.RegisterInfluencer(influencer);
 
         var msg = Assert.Throws<InvalidOperationException>(() => this.inflRepository.RegisterInfluencer(influencer));
@@ -33,5 +34,14 @@ public class Tests
     }
 
     [Test]
-    public void 
+    public void RegisterInfluencerReturnsCorrectMsgIfSucceeded()
+    {
+        var msg = this.inflRepository.RegisterInfluencer(influencer);
+
+        Assert.Multiple(() =>
+        {
+            Assert.That(this.inflRepository.Influencers.Count > 0);
+            Assert.That(msg, Is.EqualTo($"Successfully added influencer {influencer.Username} with {influencer.Followers}"));
+        });
+    }
 }
