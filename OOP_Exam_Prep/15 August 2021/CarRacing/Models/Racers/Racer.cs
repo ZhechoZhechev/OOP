@@ -56,6 +56,10 @@ namespace CarRacing.Models.Racers
                 this.drivingExperience = value;
             }
         }
+
+        /// <summary>
+        /// Property for racers car
+        /// </summary>
         public ICar Car
         {
             get => this.car;
@@ -82,6 +86,7 @@ namespace CarRacing.Models.Racers
         {
             this.car.Drive();
         }
+
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
