@@ -75,7 +75,9 @@ namespace CarRacing.Models.Racers
         {
             return car.FuelAvailable >= car.FuelConsumptionPerRace;
         }
-
+        /// <summary>
+        /// Car is available and goes to race
+        /// </summary>
         public virtual void Race()
         {
             this.car.Drive();
