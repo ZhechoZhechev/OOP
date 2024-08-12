@@ -67,7 +67,10 @@ namespace CarRacing.Models.Racers
                 this.car = value;
             }
         }
-
+        /// <summary>
+        /// Checks if the car has enough fuel
+        /// </summary>
+        /// <returns></returns>
         public bool IsAvailable()
         {
             return car.FuelAvailable >= car.FuelConsumptionPerRace;
